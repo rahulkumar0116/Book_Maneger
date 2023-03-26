@@ -13,63 +13,68 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import book.maneger.entity.Auther;
-import book.maneger.services.AutherServices;
+
+import book.maneger.entity.Publisher;
+import book.maneger.services.PublisherService;
 
 @RestController
-public class AutherController {
+public class PublisherController {
 	@Autowired
-	private AutherServices autherservices;
+	private PublisherService publisherservice;
 
-	@GetMapping("/auther")
-	public ResponseEntity<List<Auther>> getAuther() {
-		List<Auther> list = this.autherservices.getAllAuther();
-		if (list.size() <= 0) {
+	@GetMapping("/publisher")
+	public ResponseEntity<List<Publisher>> GetAllPubl() {
+		List<Publisher> publ = this.publisherservice.GetAllPublisher();
+		if (publ.size() <= 0) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return ResponseEntity.status(HttpStatus.FOUND).body(list);
+		return ResponseEntity.status(HttpStatus.CREATED).body(publ);
 	}
 
-	@GetMapping("/auther/{id}")
-	public ResponseEntity<Optional<Auther>> getAuther(@PathVariable("id") int id) {
-		Optional<Auther> auther = this.autherservices.getAutherByid(id);
-		if (auther == null) {
+	@GetMapping("/publisher/{id}")
+	public ResponseEntity<Optional<Publisher>> Getpubl(@PathVariable("id") int id) {
+		Optional<Publisher> publ = this.publisherservice.GetPublisher(id);
+		if (publ == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return ResponseEntity.of(Optional.of(auther));
+		return ResponseEntity.of(Optional.of(publ));
 	}
 
-	@PostMapping("/auther")
-	public ResponseEntity<Auther> addauther(@RequestBody Auther auther) {
-		Auther ans = null;
+	@PostMapping("/publisher")
+	public ResponseEntity<Publisher> AddPubl(@RequestBody Publisher publ) {
+		Publisher ans = null;
 		try {
-			ans = this.autherservices.addauther(auther);
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(ans);
+			ans = this.publisherservice.AddPubl(publ);
+			return ResponseEntity.of(Optional.of(ans));
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
-	@DeleteMapping("/auther/{id}")
-	public ResponseEntity<Auther> deleteauther(@PathVariable("id")int id){
+
+	@DeleteMapping("/publisher/{id}")
+	public ResponseEntity<Publisher> DeletePubl(@PathVariable int id) {
 		try {
-			this.autherservices.deleteAuther(id);
+			this.publisherservice.DeletePubl(id);
 			return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).build();
 		} catch (Exception e) {
 			// TODO: handle exception
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}	
+		}
+
 	}
-	@PutMapping("/auther/{id}")
-	public ResponseEntity<Auther> updateauther(@RequestBody Auther auther, @PathVariable("id")int id){
+
+	@PutMapping("/publisher/{id}")
+	public ResponseEntity<Publisher> updatePubl(@RequestBody Publisher publ, @PathVariable int id) {
 		try {
-			this.autherservices.updateAuther(auther, id);
-			return ResponseEntity.ok().body(auther);
+			this.publisherservice.UpdatePubl(publ, id);
+			return ResponseEntity.ok().body(publ);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
-
 }

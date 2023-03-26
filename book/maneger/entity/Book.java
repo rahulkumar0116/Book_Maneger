@@ -2,37 +2,31 @@ package book.maneger.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "books")
+@Table(name = "book_id")
 public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "books")
 	private int id;
-
 	private String tital;
-	
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JsonManagedReference
+
+	@OneToOne
 	private Auther auther;
 
-	public Book(int id, String tital, Auther auther) {
-		super();
-		this.id = id;
-		this.tital = tital;
-		this.auther = auther;
-	}
+	
+	@ManyToOne
+	private Publisher publisher;
 
 	public Book() {
 
@@ -62,9 +56,19 @@ public class Book {
 		this.auther = auther;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", tital=" + tital + ", langause=" + auther + "]";
+	public Publisher getPublisher() {
+		return publisher;
 	}
 
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	public Book(int id, String tital, Auther auther, Publisher publisher) {
+		super();
+		this.id = id;
+		this.tital = tital;
+		this.auther = auther;
+		this.publisher = publisher;
+	}
 }

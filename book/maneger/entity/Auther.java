@@ -2,7 +2,6 @@ package book.maneger.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,16 +13,13 @@ public class Auther {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int autherid;
-	@Column(name = "First_name")
-	private String firstname;
-	private String lastname;
+	private String f_name;
+	private String l_name;
 	private String langause;
+
 	
-	
-	@JsonBackReference
-	@OneToOne(mappedBy = "auther")
+	@OneToOne
 	private Book book;
-	
 
 	public Auther() {
 
@@ -37,20 +33,20 @@ public class Auther {
 		this.autherid = autherid;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getF_name() {
+		return f_name;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setF_name(String f_name) {
+		this.f_name = f_name;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getL_name() {
+		return l_name;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setL_name(String l_name) {
+		this.l_name = l_name;
 	}
 
 	public String getLangause() {
@@ -69,13 +65,12 @@ public class Auther {
 		this.book = book;
 	}
 
-	public Auther(int autherid, String firstname, String lastname, String langause, Book book) {
+	public Auther(int autherid, String f_name, String l_name, String langause, Book book) {
 		super();
 		this.autherid = autherid;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		this.f_name = f_name;
+		this.l_name = l_name;
 		this.langause = langause;
 		this.book = book;
 	}
-
 }
